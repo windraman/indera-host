@@ -13,6 +13,6 @@ with CronTab(user=sys.argv[1]) as cron:
     job = cron.new(command='python3 '+app_path+'send_ip.py')
     job.minute.every(3)
     job = cron.new(command='python3 '+app_path+'report_terjadwal.py')
-    job.every(12).hours()
+    job.every(20).hours()
     for job in cron:
         print(job)
