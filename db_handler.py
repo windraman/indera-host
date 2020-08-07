@@ -559,13 +559,13 @@ def sync_modul( slug, json_str = False ):
     if json_str:
         jmodul = dict(rows)
         grups = db.execute('''
-            SELECT * from grups WHERE moduls_id = "''' + str(rows['id']) + '''"''').fetchall()
+            SELECT id,slug,name from grups WHERE moduls_id = "''' + str(rows['id']) + '''"''').fetchall()
         
         jgrup = json.loads(json.dumps( [dict(ix) for ix in grups] ))
         
         for gp in jgrup:            
             sensors = db.execute('''
-                SELECT * FROM sensors
+                SELECT slug,name,pin,pin2,tipe_sensor_id FROM sensors
                 WHERE grups_id = "''' + str(gp['id']) + '''"''').fetchall()
             
             jsensor = json.loads(json.dumps( [dict(ix) for ix in sensors] ))
@@ -582,8 +582,12 @@ def sync_modul( slug, json_str = False ):
         #print(jgrup)        
         sresp = postHandler(url + "sync_modul", data)
         print(sresp.content)
-        jsync = json.loads(sresp.content)
-        jmodul['sync_modul_id'] = jsync['id']
+        try:
+            jsync = json.loads(sresp.content)
+            jmodul['sync_modul_id'] = jsync['id']
+        except json.decoder.JSONDecodeError:
+            jmodul['sync_modul_id'] = "null"
+            
         conn.close()
         
         return jmodul
