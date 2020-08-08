@@ -73,6 +73,7 @@ def reqslug(id,permisi):
     conn = sqlite3.connect(app_path+'cgi-bin/inderasqlite3.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
+    
     umodul = {}
     try:
         rows = db.execute('''UPDATE moduls SET slug = "''' + jresp['newslug'] + '''", lokasi = "'''+ getWlan() +'''", owner_id = "''' + id + '''", status_service = "run"''')
@@ -426,6 +427,9 @@ def set_service( slug, status_service):
     
     
     conn.close()
+
+    if umodul['api_status'] == 1:
+        os.system ("python3 " + app_path + "moderator.py")
 
     return umodul
 
