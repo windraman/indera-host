@@ -75,7 +75,7 @@ def reqslug(id,permisi):
     db = conn.cursor()
     umodul = {}
     try:
-        rows = db.execute('''UPDATE moduls SET slug = "''' + jresp['newslug'] + '''", owner_id = "''' + id + '''", status_service = "run"''')
+        rows = db.execute('''UPDATE moduls SET slug = "''' + jresp['newslug'] + '''", lokasi = "'''+ getWlan() +'''", owner_id = "''' + id + '''", status_service = "run"''')
         conn.commit()
         
         umodul = dict(rows)
