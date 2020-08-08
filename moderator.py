@@ -80,24 +80,31 @@ for s in services:
 
     print(str(s) + " is running " + str(running))
     wlogs("moderator.log",str(running))
+    
+    if s == "server" and running == False:
+        os.system("nohup python3 " + app_path + s + ".py &")
+        wlogs("moderator.log",str(now) + "---> " + s + " is running")
+        response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan=Indera system " + modulslug + ", " + s + " service activated !")
+        print(response2.content)    
+    sleep(5)
 
     if status_service == "run" and running == False:
         if s == "server":
             os.system("nohup python3 " + app_path + s + ".py &")
             wlogs("moderator.log",str(now) + "---> " + s + " is running")
-            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan="+str(now)+ "-->Indera system " + modulslug + ", " + s + " service diaktifkan !")
+            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan=Indera system " + modulslug + ", " + s + " service activated !")
             print(response2.content)
             aktif = True
         else:
             subprocess.Popen(["python3", app_path + s + ".py"])
             wlogs("moderator.log",str(now) + "---> " + s + " is running")
-            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan="+str(now)+ "-->Indera system " + modulslug + ", " + s + " service diaktifkan !")
+            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan=Indera system " + modulslug + ", " + s + " service activated !")
             print(response2.content)
             aktif = True
     elif status_service == "off" and running:
         if s != "server":
             os.kill(int(fline), signal.SIGTERM)
-            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan="+str(now)+ "-->Indera system " + modulslug + ", " + s + " service di matikan !")
+            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan=Indera system " + modulslug + ", " + s + " service di matikan !")
             print(response2.content)
             wlogs("moderator.log",str(now) + "---> " + s + " is terminated")
             wpids(s+".pid","null")
