@@ -98,8 +98,9 @@ for s in services:
         else:
             subprocess.Popen(["python3", app_path + s + ".py"])
             wlogs("moderator.log",str(now) + "---> " + s + " is running")
-            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan=Indera system " + modulslug + ", " + s + " service activated !")
-            print(response2.content)
+            if s != "cloud_ovrd":
+                response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan=Indera system " + modulslug + ", " + s + " service activated !")
+                print(response2.content)
             aktif = True
     elif status_service == "off" and running:
         if s != "server":
