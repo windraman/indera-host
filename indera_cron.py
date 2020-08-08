@@ -10,8 +10,7 @@ def notExist(cron,line):
     else:
         return True
 
-#with CronTab(user=sys.argv[1]) as cron:
-with CronTab(user="pi") as cron:
+with CronTab(user=sys.argv[1]) as cron: 
     if(notExist(cron,'@reboot python3 '+app_path+'moderator.py')):
         job = cron.new(command='python3 '+app_path+'moderator.py')
         job.every_reboot()  
