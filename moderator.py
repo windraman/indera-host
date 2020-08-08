@@ -82,11 +82,18 @@ for s in services:
     wlogs("moderator.log",str(running))
 
     if status_service == "run" and running == False:
-        subprocess.Popen(["python3", app_path + s + ".py"])
-        wlogs("moderator.log",str(now) + "---> " + s + " is running")
-        response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan="+str(now)+ "-->Indera system " + modulslug + ", " + s + " service diaktifkan !")
-        print(response2.content)
-        aktif = True
+        if s == "server":
+            os.system("nohup python3 " + app_path + s + ".py &")
+            wlogs("moderator.log",str(now) + "---> " + s + " is running")
+            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan="+str(now)+ "-->Indera system " + modulslug + ", " + s + " service diaktifkan !")
+            print(response2.content)
+            aktif = True
+        else:
+            subprocess.Popen(["python3", app_path + s + ".py"])
+            wlogs("moderator.log",str(now) + "---> " + s + " is running")
+            response2 = getHandler("https://wahyu.top/public/api/notify_modul?slug=" + modulslug + "&pesan="+str(now)+ "-->Indera system " + modulslug + ", " + s + " service diaktifkan !")
+            print(response2.content)
+            aktif = True
     elif status_service == "off" and running:
         if s != "server":
             os.kill(int(fline), signal.SIGTERM)
