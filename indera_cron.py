@@ -31,10 +31,10 @@ with CronTab(user=sys.argv[1]) as cron:
         job.minute.every(3)
         print('created')
         
-    if notExist(cron,'* 7 * * * python3 '+app_path+'report_terjadwal.py'):
-        job = cron.new(command='python3 '+app_path+'report_terjadwal.py')
-        job.hours.on(7)
-        print('created')
+    #if notExist(cron,'* 7 * * * python3 '+app_path+'report_terjadwal.py'):
+        #job = cron.new(command='python3 '+app_path+'report_terjadwal.py')
+        #job.hours.on(7)
+        #print('created')
         
-    for job in cron:
-        print(job)
+    #for job in cron:
+        #print(job)
